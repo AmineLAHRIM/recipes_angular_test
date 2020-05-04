@@ -1,11 +1,18 @@
 export class User {
-    constructor(public email: string, public id, private _token: string, private _expirationDate: Date) {
+    constructor(public email: string, public id: string, private _token: string, private _expirationDate: Date) {
     }
 
     get token() {
-        if (this._expirationDate == null || Date.now() > this._expirationDate.getDate()) {
+        const a = Date.now();
+        const b = this._expirationDate.getDate();
+        if (this._expirationDate == null || Date.now() > this._expirationDate.getTime()) {
             return null;
         }
-        return this.token;
+        return this._token;
+
+    }
+
+    get expirationDate(): Date {
+        return this._expirationDate;
     }
 }

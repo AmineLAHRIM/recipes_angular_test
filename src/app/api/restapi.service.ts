@@ -1,8 +1,8 @@
 import {Injectable} from '@angular/core';
-import {HttpClient, HttpParams} from '@angular/common/http';
+import {HttpClient} from '@angular/common/http';
 import {RecipeService} from '../recipes/recipe.service';
 import {Recipe} from '../recipes/recipe.model';
-import {exhaustMap, map, take, tap} from 'rxjs/operators';
+import {map, tap} from 'rxjs/operators';
 import {AuthService} from '../auth/auth.service';
 
 export interface RestApiResonseData {
@@ -29,7 +29,8 @@ export class RestapiService {
         });
     }
 
-    findAllRecipies() {
+    /*findAllRecipies() {
+        console.log('findAllRecipies');
         return this.authService.userSubject.pipe(
             take(1),
             // for make the nested subscription as the last and returend parent for the function findAllRecipies
@@ -46,11 +47,11 @@ export class RestapiService {
             }),
 
             map((result: RestApiResonseData) => {
-                console.log('Map');
+                console.log('findAllRecipies result', result.response);
                 return result.response;
-                /*return result.response.map(recipe => {
+                /!*return result.response.map(recipe => {
                     return recipe;
-                });*/
+                });*!/
             }),
 
             tap(recipes => {
@@ -58,20 +59,21 @@ export class RestapiService {
                 this.recipeService.setRecipes(recipes);
             })
         );
-    }
+    }*/
 
-    fetchRecipies() {
-        return this.authService.userSubject.pipe(
-            take(1),
-            exhaustMap(user => {
-                return this.httpClient.get<RestApiResonseData>(this.URL + '/recipes');
+    findAllRecipies() {
+        console.log('findAllRecipies');
+        return this.httpClient.get<RestApiResonseData>(this.URL + '/recipes').pipe(
+            map((result: RestApiResonseData) => {
+                console.log('findAllRecipies result', result.response);
+                return result.response;
+                /*return result.response.map(recipe => {
+                    return recipe;
+                });*/
             }),
-            map((value: RestApiResonseData) => {
-                return value;
-            }), map(value => {
-                console.log(value.response);
-                this.recipeService.setRecipes(value.response);
-
+            tap(recipes => {
+                console.log('Tap');
+                this.recipeService.setRecipes(recipes);
             })
         );
     }
