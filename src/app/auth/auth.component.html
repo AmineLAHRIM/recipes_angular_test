@@ -1,9 +1,11 @@
+<ng-template appPlaceholder></ng-template>
+
 <div class="container">
     <div class="col-md-6 col-md-offset-3">
         <!--<div *ngIf="error">
             <p class="alert alert-danger">{{error}}</p>
         </div>-->
-        <app-alert *ngIf="error" [message]="error" (close)="onHandleError()" ></app-alert>
+        <!--<app-alert *ngIf="error" [message]="error" (close)="onHandleError()" ></app-alert>-->
         <div *ngIf="isLoged">
             <p class="alert alert-success">Login Sucess</p>
         </div>
